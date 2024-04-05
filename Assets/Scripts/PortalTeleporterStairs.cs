@@ -19,15 +19,17 @@ public class PortalTeleporterStairs : MonoBehaviour
 
             // Get the forward direction of the player
             Vector3 playerForward = player.forward;
+            Vector3 playerRight = player.right;
 
             // Calculate the dot product between the player's forward direction and the portal's forward direction
             float forwardDotProduct = Vector3.Dot(transform.forward, playerForward);
+            float rightDotProduct = Vector3.Dot(transform.forward, playerRight);
 
-            // Get the direction of the player relative to the portal's normal direction
-            float relativeDirection = Vector3.Dot(transform.forward, portalToPlayer);
-
-            // If the dot product is negative, it means the player is on the correct side of the portal
-            if (dotProduct < 0f && forwardDotProduct < 0f && relativeDirection > 0f)
+            // Check if the player is moving towards the portal (forwardDotProduct > 0) 
+            // and is facing away from the portal (dotProduct > 0) or looking up/down (dotProduct > threshold)
+            // and is not looking behind and to their right (rightDotProduct > 0)
+            float threshold = 0.5f; // Adjust this threshold value as needed
+            if (dotProduct < -threshold && forwardDotProduct < 0f && rightDotProduct > 0f)
             {
                 float rotationDiff = Quaternion.Angle(transform.rotation, receiver.rotation);
                 rotationDiff += 180f;
@@ -39,6 +41,7 @@ public class PortalTeleporterStairs : MonoBehaviour
             }
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
