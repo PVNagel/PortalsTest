@@ -21,7 +21,7 @@ public class PortalTeleporter3Room : MonoBehaviour
             if (dotProduct > 0f)
             {
                 float rotationDiff = Quaternion.Angle(transform.rotation, receiver.rotation);
-                rotationDiff += 150f;
+                rotationDiff += 180f;
                 player.Rotate(Vector3.up, rotationDiff);
                 Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
                 player.position = receiver.position + positionOffset;
